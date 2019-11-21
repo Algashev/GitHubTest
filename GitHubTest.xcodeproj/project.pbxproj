@@ -19,6 +19,11 @@
 		FFAAFF642385B1F1000E57C8 /* IndexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF632385B1F1000E57C8 /* IndexPath.swift */; };
 		FFAAFF672385B243000E57C8 /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF662385B243000E57C8 /* UITableView.swift */; };
 		FFAAFF692385B983000E57C8 /* RepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF682385B983000E57C8 /* RepoCell.swift */; };
+		FFAAFF6B2386EE8D000E57C8 /* CommitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF6A2386EE8D000E57C8 /* CommitViewController.swift */; };
+		FFAAFF6D2386F314000E57C8 /* Commit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF6C2386F314000E57C8 /* Commit.swift */; };
+		FFAAFF6F23870CCA000E57C8 /* CommitRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF6E23870CCA000E57C8 /* CommitRealm.swift */; };
+		FFAAFF71238724FD000E57C8 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF70238724FD000E57C8 /* UIImage.swift */; };
+		FFAAFF732387295F000E57C8 /* Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF722387295F000E57C8 /* Realm.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +43,11 @@
 		FFAAFF632385B1F1000E57C8 /* IndexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexPath.swift; sourceTree = "<group>"; };
 		FFAAFF662385B243000E57C8 /* UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
 		FFAAFF682385B983000E57C8 /* RepoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoCell.swift; sourceTree = "<group>"; };
+		FFAAFF6A2386EE8D000E57C8 /* CommitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitViewController.swift; sourceTree = "<group>"; };
+		FFAAFF6C2386F314000E57C8 /* Commit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commit.swift; sourceTree = "<group>"; };
+		FFAAFF6E23870CCA000E57C8 /* CommitRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitRealm.swift; sourceTree = "<group>"; };
+		FFAAFF70238724FD000E57C8 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		FFAAFF722387295F000E57C8 /* Realm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Realm.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				FFAAFF462384609A000E57C8 /* AppDelegate.swift */,
+				FFAAFF6A2386EE8D000E57C8 /* CommitViewController.swift */,
 				FFAAFF612385A642000E57C8 /* ReposTableViewController.swift */,
 				FFAAFF682385B983000E57C8 /* RepoCell.swift */,
 				FFAAFF602385A486000E57C8 /* Entities */,
@@ -109,6 +120,8 @@
 			children = (
 				FFAAFF5A23846D4C000E57C8 /* Repo.swift */,
 				FFAAFF5E2385A07C000E57C8 /* RepoRealm.swift */,
+				FFAAFF6C2386F314000E57C8 /* Commit.swift */,
+				FFAAFF6E23870CCA000E57C8 /* CommitRealm.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -117,6 +130,8 @@
 			isa = PBXGroup;
 			children = (
 				FFAAFF632385B1F1000E57C8 /* IndexPath.swift */,
+				FFAAFF722387295F000E57C8 /* Realm.swift */,
+				FFAAFF70238724FD000E57C8 /* UIImage.swift */,
 				FFAAFF662385B243000E57C8 /* UITableView.swift */,
 			);
 			path = Extensions;
@@ -237,12 +252,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFAAFF6F23870CCA000E57C8 /* CommitRealm.swift in Sources */,
+				FFAAFF6D2386F314000E57C8 /* Commit.swift in Sources */,
 				FFAAFF5F2385A07C000E57C8 /* RepoRealm.swift in Sources */,
 				FFAAFF642385B1F1000E57C8 /* IndexPath.swift in Sources */,
 				FFAAFF472384609A000E57C8 /* AppDelegate.swift in Sources */,
 				FFAAFF5D23859D53000E57C8 /* NetworkService.swift in Sources */,
+				FFAAFF732387295F000E57C8 /* Realm.swift in Sources */,
 				FFAAFF5B23846D4C000E57C8 /* Repo.swift in Sources */,
 				FFAAFF622385A642000E57C8 /* ReposTableViewController.swift in Sources */,
+				FFAAFF6B2386EE8D000E57C8 /* CommitViewController.swift in Sources */,
+				FFAAFF71238724FD000E57C8 /* UIImage.swift in Sources */,
 				FFAAFF672385B243000E57C8 /* UITableView.swift in Sources */,
 				FFAAFF692385B983000E57C8 /* RepoCell.swift in Sources */,
 			);

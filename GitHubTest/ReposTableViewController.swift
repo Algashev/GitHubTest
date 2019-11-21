@@ -12,9 +12,10 @@ import RealmSwift
 class ReposTableViewController: UITableViewController {
     private var repos: Results<RepoRealm>?
     private var reposToken: NotificationToken?
-    private let networkService = NetworkService()
+    private var networkService = NetworkService()
     private var isNextPageDownloadEnabled = false
     private var pageNumber = 1
+    private let url = "https://api.github.com/search/repositories?q=language:swift&sort=stars&order=desc&per_page=20&page="
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +24,7 @@ class ReposTableViewController: UITableViewController {
         self.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         self.refresh(nil)
         self.tableView.estimatedRowHeight = 92.5
+        print(Realm.parentDirectory)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,15 +50,18 @@ class ReposTableViewController: UITableViewController {
         self.reposToken?.invalidate()
     }
     
-    private func getReposFromNetwork(pageNumber: Int = 1) {
-        networkService.getReposFromNetwork(pageNumber: pageNumber) { (repos) in
+    private func getReposFromNetwork(pageNumber: Int) {
+        guard let url = URL(string: self.url + "\(pageNumber)") else { return }
+        networkService.getFromNetwork(url: url) { (repos) in
             RepoRealm.saveRepos(repos)
         }
     }
     
     @objc private func refresh(_ sender: UIRefreshControl?) {
-        networkService.getReposFromNetwork { [weak self] (repos) in
+        guard let url = URL(string: self.url + "1") else { return }
+        networkService.getFromNetwork(url: url)  { [weak self] (repos: Repos) in
             RepoRealm.delete(self?.repos)
+            self?.removeAvatars()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self?.pageNumber = 1
                 RepoRealm.saveRepos(repos)
@@ -64,6 +69,13 @@ class ReposTableViewController: UITableViewController {
                 self?.isNextPageDownloadEnabled = true
             }
         }
+    }
+    
+    
+    private func removeAvatars() {
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let avatarsURL = documentsURL.appendingPathComponent("avatars", isDirectory: true)
+        try? FileManager.default.removeItem(at: avatarsURL)
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -96,5 +108,18 @@ class ReposTableViewController: UITableViewController {
         return cell
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard
+            let controller = storyboard.instantiateViewController(withIdentifier: "\(CommitViewController.self)") as? CommitViewController,
+            let repo = self.repos?[indexPath.row]
+        else { return }
+        
+        controller.url = self.commitURL(owner: repo.owner, repo: repo.name)
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
     
+    private func commitURL(owner: String, repo: String) -> String {
+        return "https://api.github.com/repos/\(owner)/\(repo)/commits"
+    }
 }
