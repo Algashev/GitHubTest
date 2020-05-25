@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 class ReposTableViewController: UITableViewController {
-    private var repos: Results<RepoRealm>?
+    private var repos: Results<RLMRepo>?
     private var reposToken: NotificationToken?
     private var networkService = NetworkService()
     private var isNextPageDownloadEnabled = false
@@ -20,7 +20,7 @@ class ReposTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.repos = RepoRealm.all()
+        self.repos = RLMRepo.all(sorted: .watchers, ascending: false)
         self.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         self.refresh(nil)
         self.tableView.estimatedRowHeight = 92.5
@@ -53,18 +53,18 @@ class ReposTableViewController: UITableViewController {
     private func getReposFromNetwork(pageNumber: Int) {
         guard let url = URL(string: self.url + "\(pageNumber)") else { return }
         networkService.getFromNetwork(url: url) { (repos) in
-            RepoRealm.saveRepos(repos)
+            RLMRepo.add(repos)
         }
     }
     
     @objc private func refresh(_ sender: UIRefreshControl?) {
         guard let url = URL(string: self.url + "1") else { return }
         networkService.getFromNetwork(url: url)  { [weak self] (repos: Repos) in
-            RepoRealm.delete(self?.repos)
+            self?.repos?.delete()
             self?.removeAvatars()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self?.pageNumber = 1
-                RepoRealm.saveRepos(repos)
+                RLMRepo.add(repos)
                 self?.refreshControl?.endRefreshing()
                 self?.isNextPageDownloadEnabled = true
             }

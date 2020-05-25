@@ -23,7 +23,7 @@ class CommitViewController: UIViewController {
         super.viewDidLoad()
     
         guard let url = URL(string: self.url + commitURLSuffix) else { return }
-        NetworkService().getArrayFromNetwork(url: url) { [weak self] (commits: [Commit]) in
+        NetworkService().getFromNetwork(url: url) { [weak self] (commits: [Commit]) in
             guard
                 let commit = commits.first,
                 let request =

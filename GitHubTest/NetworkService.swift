@@ -40,34 +40,6 @@ class NetworkService {
         dataTask?.resume()
     }
     
-    func getArrayFromNetwork<T: Codable>(url: URL, completion: @escaping ([T]) -> ()) {
-        self.dataTask?.cancel()
-        dataTask = self.sharedSession.dataTask(with: url) { [weak self] data, response, error in
-            defer {
-                self?.dataTask = nil
-            }
-            
-            if let error = error {
-                print(error)
-            } else if
-                let data = data,
-                let response = response as? HTTPURLResponse,
-                response.statusCode == 200 {
-                do {
-                    let decoder = JSONDecoder()
-                    let repos = try decoder.decode([T].self, from: data)
-                    DispatchQueue.main.async {
-                        completion(repos)
-                    }
-                } catch {
-                    print(error)
-                    return
-                }
-            }
-        }
-        dataTask?.resume()
-    }
-    
     func getArrayFromNetwork<T: Codable>(request: URLRequest, completion: @escaping ([T]) -> ()) {
         self.dataTask?.cancel()
         dataTask = self.sharedSession.dataTask(with: request) { [weak self] data, response, error in

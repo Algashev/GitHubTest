@@ -23,8 +23,9 @@ import RealmSwift
         Property.id.rawValue
     }
     
-    convenience init(_ repo: Repo) {
-        self.init()
+    required init() { }
+    
+    init(_ repo: Repo) {
         self.id = repo.id
         self.name = repo.name
         self.desc = repo.description
@@ -34,30 +35,23 @@ import RealmSwift
 }
 
 extension RLMRepo {
-    static func all() -> Results<RLMRepo>? {
+    static func all(
+        sorted keyPath: Property? = nil,
+        ascending: Bool = true) -> Results<RLMRepo>?
+    {
         let realm = try? Realm()
-        return realm?.objects(RLMRepo.self).sorted(byKeyPath: RLMRepo.Property.watchers.rawValue, ascending: false)
+        let repos = realm?.objects(RLMRepo.self)
+        guard let keyPath = keyPath else { return repos }
+        let sortedRepos = repos?.sorted(byKeyPath: keyPath.rawValue, ascending: ascending)
+        return sortedRepos
     }
     
-    static func saveRepos(_ repos: Repos) {
+    static func add(_ repos: Repos) {
         let realm = try? Realm()
         try? realm?.write {
             repos.items.forEach {
                 realm?.add(RLMRepo($0))
             }
-        }
-    }
-    
-    static func delete(_ repos: Results<RLMRepo>?) {
-        guard let repos = repos else { return }
-        repos.forEach {
-            $0.delete()
-        }
-    }
-    
-    func delete() {
-        try? self.realm?.write {
-            self.realm?.delete(self)
         }
     }
 }
