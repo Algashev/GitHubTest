@@ -39,14 +39,14 @@ class CommitViewController: UIViewController {
                 }
             }
             NetworkService().getArrayFromNetwork(request: request) { (branches: [Branch]) in
-                guard let commit = CommitRealm.add(commits: commits, branches: branches)
+                guard let commit = RLMCommit.add(commits: commits, branches: branches)
                     else { return }
                 self?.configureViewWith(commit)
             }
         }
     }
     
-    private func configureViewWith(_ commit: CommitRealm) {
+    private func configureViewWith(_ commit: RLMCommit) {
         self.authorLabel.text = "Author: \(commit.author)"
         self.shaLabel.text = "Sha: \(commit.sha)"
         self.commitLabel.text = "Commit: \(commit.commit)"

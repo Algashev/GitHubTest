@@ -24,8 +24,9 @@ import RealmSwift
         Property.sha.rawValue
     }
     
-    convenience init(commit: Commit, branch: Branch) {
-        self.init()
+    required init() { }
+    
+    init(commit: Commit, branch: Branch) {
         self.sha = commit.sha
         self.author = commit.author.login
         self.commit = commit.commit.message
@@ -37,7 +38,10 @@ import RealmSwift
 extension RLMCommit {
     private static func withSHA(_ sha: String) -> RLMCommit? {
         let realm = try? Realm()
-        return realm?.objects(RLMCommit.self).filter("\(RLMCommit.Property.sha.rawValue) = '\(sha)'").first
+        let commits = realm?.objects(RLMCommit.self)
+        let filteredCommits = commits?.filter("\(Property.sha.rawValue) = '\(sha)'")
+        let commit = filteredCommits?.first
+        return commit
     }
     
     static func add(commits: [Commit], branches: [Branch]) -> RLMCommit? {
@@ -46,14 +50,10 @@ extension RLMCommit {
             let branch = branches.first,
             let realm = try? Realm()
         else { return nil }
-        let commitRealm = RLMCommit(commit: commit, branch: branch)
+        let rlmCommit = RLMCommit(commit: commit, branch: branch)
         try? realm.write {
-            if RLMCommit.withSHA(commitRealm.sha) != nil {
-                realm.create(RLMCommit.self, value: commitRealm, update: .all)
-            } else {
-                realm.add(commitRealm)
-            }
+            realm.add(rlmCommit, update: .all)
         }
-        return commitRealm
+        return rlmCommit
     }
 }

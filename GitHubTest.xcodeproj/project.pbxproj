@@ -22,7 +22,7 @@
 		FFAAFF692385B983000E57C8 /* RepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF682385B983000E57C8 /* RepoCell.swift */; };
 		FFAAFF6B2386EE8D000E57C8 /* CommitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF6A2386EE8D000E57C8 /* CommitViewController.swift */; };
 		FFAAFF6D2386F314000E57C8 /* Commit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF6C2386F314000E57C8 /* Commit.swift */; };
-		FFAAFF6F23870CCA000E57C8 /* CommitRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF6E23870CCA000E57C8 /* CommitRealm.swift */; };
+		FFAAFF6F23870CCA000E57C8 /* RLMCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF6E23870CCA000E57C8 /* RLMCommit.swift */; };
 		FFAAFF71238724FD000E57C8 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF70238724FD000E57C8 /* UIImage.swift */; };
 		FFAAFF732387295F000E57C8 /* Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF722387295F000E57C8 /* Realm.swift */; };
 /* End PBXBuildFile section */
@@ -47,7 +47,7 @@
 		FFAAFF682385B983000E57C8 /* RepoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoCell.swift; sourceTree = "<group>"; };
 		FFAAFF6A2386EE8D000E57C8 /* CommitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitViewController.swift; sourceTree = "<group>"; };
 		FFAAFF6C2386F314000E57C8 /* Commit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commit.swift; sourceTree = "<group>"; };
-		FFAAFF6E23870CCA000E57C8 /* CommitRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitRealm.swift; sourceTree = "<group>"; };
+		FFAAFF6E23870CCA000E57C8 /* RLMCommit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RLMCommit.swift; sourceTree = "<group>"; };
 		FFAAFF70238724FD000E57C8 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		FFAAFF722387295F000E57C8 /* Realm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Realm.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -123,7 +123,7 @@
 				FFAAFF5A23846D4C000E57C8 /* Repo.swift */,
 				FFAAFF5E2385A07C000E57C8 /* RLMRepo.swift */,
 				FFAAFF6C2386F314000E57C8 /* Commit.swift */,
-				FFAAFF6E23870CCA000E57C8 /* CommitRealm.swift */,
+				FFAAFF6E23870CCA000E57C8 /* RLMCommit.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -255,7 +255,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FFAAFF6F23870CCA000E57C8 /* CommitRealm.swift in Sources */,
+				FFAAFF6F23870CCA000E57C8 /* RLMCommit.swift in Sources */,
 				FFAAFF6D2386F314000E57C8 /* Commit.swift in Sources */,
 				FFAAFF5F2385A07C000E57C8 /* RLMRepo.swift in Sources */,
 				FFAAFF642385B1F1000E57C8 /* IndexPath.swift in Sources */,
