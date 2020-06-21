@@ -8,11 +8,12 @@
 
 import UIKit
 import RealmSwift
+import Networker
 
 class ReposTableViewController: UITableViewController {
     private var repos: Results<RLMRepo>?
     private var reposToken: NotificationToken?
-    private var networkService = NetworkService()
+    private let networker = Networker(decoder: JSONDecoder())
     private var isNextPageDownloadEnabled = false
     private var pageNumber = 1
     private let url = "https://api.github.com/search/repositories?q=language:swift&sort=stars&order=desc&per_page=20&page="
@@ -52,21 +53,31 @@ class ReposTableViewController: UITableViewController {
     
     private func getReposFromNetwork(pageNumber: Int) {
         guard let url = URL(string: self.url + "\(pageNumber)") else { return }
-        networkService.getFromNetwork(url: url) { (repos) in
-            RLMRepo.add(repos)
+        self.networker.dataTask(with: url, Repos.self) { (result) in
+            switch result {
+            case .success(let repos):
+                RLMRepo.add(repos)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
         }
     }
     
     @objc private func refresh(_ sender: UIRefreshControl?) {
         guard let url = URL(string: self.url + "1") else { return }
-        networkService.getFromNetwork(url: url)  { [weak self] (repos: Repos) in
-            self?.repos?.delete()
-            self?.removeAvatars()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self?.pageNumber = 1
-                RLMRepo.add(repos)
-                self?.refreshControl?.endRefreshing()
-                self?.isNextPageDownloadEnabled = true
+        self.networker.dataTask(with: url, Repos.self) { [weak self] (result) in
+            switch result {
+            case .success(let repos):
+                self?.repos?.delete()
+                self?.removeAvatars()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self?.pageNumber = 1
+                    RLMRepo.add(repos)
+                    self?.refreshControl?.endRefreshing()
+                    self?.isNextPageDownloadEnabled = true
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
     }

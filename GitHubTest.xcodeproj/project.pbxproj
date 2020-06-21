@@ -14,7 +14,6 @@
 		FFAAFF502384609C000E57C8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFAAFF4F2384609C000E57C8 /* Assets.xcassets */; };
 		FFAAFF532384609C000E57C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFAAFF512384609C000E57C8 /* LaunchScreen.storyboard */; };
 		FFAAFF5B23846D4C000E57C8 /* Repo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF5A23846D4C000E57C8 /* Repo.swift */; };
-		FFAAFF5D23859D53000E57C8 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF5C23859D53000E57C8 /* NetworkService.swift */; };
 		FFAAFF5F2385A07C000E57C8 /* RLMRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF5E2385A07C000E57C8 /* RLMRepo.swift */; };
 		FFAAFF622385A642000E57C8 /* ReposTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF612385A642000E57C8 /* ReposTableViewController.swift */; };
 		FFAAFF642385B1F1000E57C8 /* IndexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF632385B1F1000E57C8 /* IndexPath.swift */; };
@@ -39,7 +38,6 @@
 		FFAAFF522384609C000E57C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FFAAFF542384609C000E57C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FFAAFF5A23846D4C000E57C8 /* Repo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repo.swift; sourceTree = "<group>"; };
-		FFAAFF5C23859D53000E57C8 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		FFAAFF5E2385A07C000E57C8 /* RLMRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RLMRepo.swift; sourceTree = "<group>"; };
 		FFAAFF612385A642000E57C8 /* ReposTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReposTableViewController.swift; sourceTree = "<group>"; };
 		FFAAFF632385B1F1000E57C8 /* IndexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexPath.swift; sourceTree = "<group>"; };
@@ -107,7 +105,6 @@
 				FFAAFF612385A642000E57C8 /* ReposTableViewController.swift */,
 				FFAAFF682385B983000E57C8 /* RepoCell.swift */,
 				FFAAFF602385A486000E57C8 /* Entities */,
-				FFAAFF5C23859D53000E57C8 /* NetworkService.swift */,
 				FFAAFF652385B219000E57C8 /* Extensions */,
 				FFAAFF4C2384609A000E57C8 /* Main.storyboard */,
 				FFAAFF4F2384609C000E57C8 /* Assets.xcassets */,
@@ -260,7 +257,6 @@
 				FFAAFF5F2385A07C000E57C8 /* RLMRepo.swift in Sources */,
 				FFAAFF642385B1F1000E57C8 /* IndexPath.swift in Sources */,
 				FFAAFF472384609A000E57C8 /* AppDelegate.swift in Sources */,
-				FFAAFF5D23859D53000E57C8 /* NetworkService.swift in Sources */,
 				FFAAFF732387295F000E57C8 /* Realm.swift in Sources */,
 				FFAAFF5B23846D4C000E57C8 /* Repo.swift in Sources */,
 				FFAAFF622385A642000E57C8 /* ReposTableViewController.swift in Sources */,

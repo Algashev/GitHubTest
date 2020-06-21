@@ -7,5 +7,6 @@ target 'GitHubTest' do
 
   # Pods for GitHubTest
   pod 'RealmSwift'
+  pod 'Networker', git: 'https://github.com/Algashev/Networker.git'
 
 end

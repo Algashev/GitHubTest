@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Networker
 
 class CommitViewController: UIViewController {
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -15,6 +16,7 @@ class CommitViewController: UIViewController {
     @IBOutlet weak var commitLabel: UILabel!
     @IBOutlet weak var branchLabel: UILabel!
     
+    private let networker = Networker(decoder: JSONDecoder())
     var url = ""
     let commitURLSuffix = "?&per_page=1&page=1"
     let branchURLSuffix = "/branches-where-head"
@@ -22,26 +24,41 @@ class CommitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        guard let url = URL(string: self.url + commitURLSuffix) else { return }
-        NetworkService().getFromNetwork(url: url) { [weak self] (commits: [Commit]) in
-            guard
-                let commit = commits.first,
-                let request =
-                self?.branchRequestForCommitWith(sha: commit.sha),
-                let url = URL(string: commit.author.avatar_url)
-            else { return }
-            if let image = UIImage(fromPngFileWithName: commit.author.login) {
-                self?.avatarImageView.image = image
-            } else {
-                NetworkService().getImageFromNetwork(url: url) { (image) in
+        guard let url = URL(string: self.url + self.commitURLSuffix) else { return }
+        self.networker.dataTask(with: url, [Commit].self) { [weak self] (result) in
+            switch result {
+            case .success(let commits):
+                guard
+                    let commit = commits.first,
+                    let request =
+                    self?.branchRequestForCommitWith(sha: commit.sha),
+                    let url = URL(string: commit.author.avatar_url)
+                else { return }
+                if let image = UIImage(fromPngFileWithName: commit.author.login) {
                     self?.avatarImageView.image = image
-                    image?.safeAsPngWith(name: commit.author.login)
+                } else {
+                    self?.networker.fetchImage(with: url) { (result) in
+                        switch result {
+                        case .success(let image):
+                            self?.avatarImageView.image = image
+                            image.safeAsPngWith(name: commit.author.login)
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
                 }
-            }
-            NetworkService().getArrayFromNetwork(request: request) { (branches: [Branch]) in
-                guard let commit = RLMCommit.add(commits: commits, branches: branches)
-                    else { return }
-                self?.configureViewWith(commit)
+                self?.networker.dataTask(with: request, [Branch].self) { (result) in
+                    switch result {
+                    case .success(let branches):
+                        guard let commit = RLMCommit.add(commits: commits, branches: branches)
+                            else { return }
+                        self?.configureViewWith(commit)
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+            case .failure:
+                break
             }
         }
     }

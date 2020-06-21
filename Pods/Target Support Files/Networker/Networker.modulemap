@@ -1,0 +1,6 @@
+framework module Networker {
+  umbrella header "Networker-umbrella.h"
+
+  export *
+  module * { export * }
+}
