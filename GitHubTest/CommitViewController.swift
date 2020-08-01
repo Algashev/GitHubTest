@@ -52,7 +52,7 @@ class CommitViewController: UIViewController {
                     case .success(let branches):
                         guard let commit = RLMCommit.add(commits: commits, branches: branches)
                             else { return }
-                        self?.configureViewWith(commit)
+                        self?.updateView(with: commit)
                     case .failure(let error):
                         print(error.localizedDescription)
                     }
@@ -63,7 +63,7 @@ class CommitViewController: UIViewController {
         }
     }
     
-    private func configureViewWith(_ commit: RLMCommit) {
+    private func updateView(with commit: RLMCommit) {
         self.authorLabel.text = "Author: \(commit.author)"
         self.shaLabel.text = "Sha: \(commit.sha)"
         self.commitLabel.text = "Commit: \(commit.commit)"
