@@ -17,15 +17,15 @@ class CommitViewController: UIViewController {
     @IBOutlet weak var branchLabel: UILabel!
     
     private let networker = Networker(decoder: JSONDecoder())
-    var url = ""
+    var path = ""
     let commitURLSuffix = "?&per_page=1&page=1"
     let branchURLSuffix = "/branches-where-head"
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        guard let url = URL(string: self.url + self.commitURLSuffix) else { return }
-        self.networker.dataTask(with: url, [Commit].self) { [weak self] (result) in
+        guard let url = URL(string: self.path + self.commitURLSuffix) else { return }
+        self.networker.requestJSON(with: url, [Commit].self) { [weak self] (result) in
             switch result {
             case .success(let commits):
                 guard
@@ -37,7 +37,7 @@ class CommitViewController: UIViewController {
                 if let image = UIImage(fromPngFileWithName: commit.author.login) {
                     self?.avatarImageView.image = image
                 } else {
-                    self?.networker.fetchImage(with: url) { (result) in
+                    self?.networker.requestImage(with: url) { (result) in
                         switch result {
                         case .success(let image):
                             self?.avatarImageView.image = image
@@ -47,7 +47,7 @@ class CommitViewController: UIViewController {
                         }
                     }
                 }
-                self?.networker.dataTask(with: request, [Branch].self) { (result) in
+                self?.networker.requestJSON(with: request, [Branch].self) { (result) in
                     switch result {
                     case .success(let branches):
                         guard let commit = RLMCommit.add(commits: commits, branches: branches)
@@ -79,6 +79,6 @@ class CommitViewController: UIViewController {
     }
     
     private func branchURLForCommitWith(sha: String?) -> String {
-        return self.url + "/\(sha ?? "")" + self.branchURLSuffix
+        return self.path + "/\(sha ?? "")" + self.branchURLSuffix
     }
 }

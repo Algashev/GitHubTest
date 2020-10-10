@@ -8,11 +8,55 @@
 
 import Foundation
 
-enum HTTPError: Error, LocalizedError, Equatable {
-    case emptyData
-    case unknownResponse
-    case wrongStatusCode(_ statusCode: String, error: String)
+class HTTPClient {
+    enum Error: Swift.Error {
+        case emptyData
+        case unknownResponse
+        case wrongStatusCode(_ httpData: HTTPData)
+    }
     
+    typealias Result = Swift.Result<HTTPData, Swift.Error>
+    typealias Completion = (Result) -> Void
+    
+    let session: URLSession
+    
+    init(_ session: URLSession) {
+        self.session = session
+    }
+
+    func dataTask(with request: URLRequest, completion: @escaping Completion) {
+        let task = self.session.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else {
+                let error = Error.emptyData
+                completion(.failure(error))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                let error = Error.unknownResponse
+                completion(.failure(error))
+                return
+            }
+            
+            let httpData = HTTPData(data: data, response: httpResponse)
+            if (200...299).contains(httpResponse.statusCode) {
+                completion(.success(httpData))
+            } else {
+                let error = Error.wrongStatusCode(httpData)
+                completion(.failure(error))
+            }
+        }
+        
+        task.resume()
+    }
+}
+
+extension HTTPClient.Error: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .emptyData:
@@ -21,51 +65,11 @@ enum HTTPError: Error, LocalizedError, Equatable {
         case .unknownResponse:
             let key = "Ответ сервера не распознан"
             return NSLocalizedString(key, comment: "Ответ не распознан")
-        case .wrongStatusCode(let statusCode, let error):
+        case .wrongStatusCode(let httpData):
+            let statusCode = httpData.response.localizedStatusCode
+            let error = httpData.data.utf8String
             let key = "Неуспешный ответ состояния HTTP: \(statusCode). Ошибка: \(error)"
             return NSLocalizedString(key, comment: statusCode)
         }
-    }
-}
-
-class HTTPClient {
-    typealias httpResult = (Result<(data: Data, statusCode: String), Error>) -> Void
-    
-    let session: URLSession
-    
-    init(_ session: URLSession) {
-        self.session = session
-    }
-
-    func dataTask(with request: URLRequest, completion: @escaping httpResult) {
-        let task = self.session.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            
-            guard let data = data else {
-                let error = HTTPError.emptyData
-                completion(.failure(error))
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                let error = HTTPError.unknownResponse
-                completion(.failure(error))
-                return
-            }
-            
-            if (200...299).contains(httpResponse.statusCode) {
-                let success = (data: data, statusCode: httpResponse.localizedStatusCode)
-                completion(.success(success))
-            } else {
-                let message = String(decoding: data, as: UTF8.self)
-                let error = HTTPError.wrongStatusCode(httpResponse.localizedStatusCode, error: message)
-                completion(.failure(error))
-            }
-        }
-        
-        task.resume()
     }
 }

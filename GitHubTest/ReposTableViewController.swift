@@ -53,7 +53,7 @@ class ReposTableViewController: UITableViewController {
     
     private func getReposFromNetwork(pageNumber: Int) {
         guard let url = URL(string: self.url + "\(pageNumber)") else { return }
-        self.networker.dataTask(with: url, Repos.self) { (result) in
+        self.networker.requestJSON(with: url, Repos.self) { (result) in
             switch result {
             case .success(let repos):
                 RLMRepo.add(repos)
@@ -65,7 +65,7 @@ class ReposTableViewController: UITableViewController {
     
     @objc private func refresh(_ sender: UIRefreshControl?) {
         guard let url = URL(string: self.url + "1") else { return }
-        self.networker.dataTask(with: url, Repos.self) { [weak self] (result) in
+        self.networker.requestJSON(with: url, Repos.self) { [weak self] (result) in
             switch result {
             case .success(let repos):
                 self?.repos?.delete()
@@ -126,7 +126,7 @@ class ReposTableViewController: UITableViewController {
             let repo = self.repos?[indexPath.row]
         else { return }
         
-        controller.url = self.commitURL(owner: repo.owner, repo: repo.name)
+        controller.path = self.commitURL(owner: repo.owner, repo: repo.name)
         self.navigationController?.pushViewController(controller, animated: true)
     }
     

@@ -8,56 +8,61 @@
 
 import UIKit
 
-let module = NSStringFromClass(Networker.self).components(separatedBy:".")[0]
-
-public typealias NWJSONResult<T: Decodable> = (Result<T, Error>) -> Void
-public typealias NWImageResult = (Result<UIImage, Error>) -> Void
+public typealias DecodableResult<T: Decodable> = Result<T, Error>
+public typealias DecodableCompetion<T: Decodable> = (DecodableResult<T>) -> Void
+public typealias ImageResult = Result<UIImage, Error>
+public typealias ImageCompletion = (ImageResult) -> Void
 
 public final class Networker {
-    public enum Error: Swift.Error, LocalizedError {
+    public enum Error: Swift.Error {
         case invalidImageData
-        
-        public var errorDescription: String? {
-            switch self {
-            case .invalidImageData:
-                let key = "Не удалось создать изображение из полученных данных"
-                let comment = "Неверный формат данных изображения"
-                return NSLocalizedString(key, comment: comment)
-            }
-        }
     }
     
-    public var decoder = JSONDecoder()
+    private static var isVerboseEnabled = false
+    public var decoder: JSONDecoder
     
-    public init() { }
-    
-    public init(decoder: JSONDecoder) {
+    public init(decoder: JSONDecoder = JSONDecoder()) {
         self.decoder = decoder
     }
     
-    public func dataTask<T: Decodable>(with url: URL, _ type: T.Type, completion: @escaping NWJSONResult<T>) {
+    public func verbose() {
+        Networker.isVerboseEnabled = true
+    }
+    
+    public func requestJSON<T: Decodable>(with url: URL, _ type: T.Type, completion: @escaping DecodableCompetion<T>) {
         let request = URLRequest(url: url)
-        self.dataTask(with: request, T.self) { (result) in
+        self.requestJSON(with: request, T.self) { (result) in
             completion(result)
         }
     }
     
-    public func dataTask<T: Decodable>(with request: URLRequest, _ type: T.Type, completion: @escaping NWJSONResult<T>) {
-        self.dataTaskJSONCore(with: request, T.self) { (result) in
+    public func requestJSON<T: Decodable>(with request: URLRequest, _ type: T.Type, completion: @escaping DecodableCompetion<T>) {
+        self.jsonDataTask(with: request, T.self) { (result) in
             DispatchQueue.main.async { completion(result) }
         }
     }
     
-    public func fetchImage(with url: URL, completion: @escaping NWImageResult) {
+    public func requestImage(with url: URL, completion: @escaping ImageCompletion) {
         let request = URLRequest(url: url)
-        self.fetchImage(with: request) { (result) in
+        self.requestImage(with: request) { (result) in
             completion(result)
         }
     }
     
-    public func fetchImage(with request: URLRequest, completion: @escaping NWImageResult) {
-        self.dataTaskImageCore(with: request) { (result) in
+    public func requestImage(with request: URLRequest, completion: @escaping ImageCompletion) {
+        self.imageDataTask(with: request) { (result) in
             DispatchQueue.main.async { completion(result) }
+        }
+    }
+}
+
+extension Networker.Error: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .invalidImageData:
+            let key = "Не удалось создать изображение из полученных данных"
+            let comment = "Неверный формат данных изображения"
+            return NSLocalizedString(key, comment: comment)
         }
     }
 }
@@ -65,11 +70,11 @@ public final class Networker {
 //MARK: - Private Methods
 
 extension Networker {
-    private func dataTaskJSONCore<T: Decodable>(with request: URLRequest, _ type: T.Type, completion: @escaping NWJSONResult<T>) {
+    private func jsonDataTask<T: Decodable>(with request: URLRequest, _ type: T.Type, completion: @escaping DecodableCompetion<T>) {
         HTTPClient(URLSession.shared).dataTask(with: request) { (result) in
             switch result {
             case .success(let result):
-                Networker.log(request, message: result.statusCode)
+                Networker.log(request, message: result.response.localizedStatusCode)
                 do {
                     let result = try T(decoding: result.data, decoder: self.decoder)
                     completion(.success(result))
@@ -83,11 +88,11 @@ extension Networker {
         }
     }
     
-    private func dataTaskImageCore(with request: URLRequest, completion: @escaping NWImageResult) {
+    private func imageDataTask(with request: URLRequest, completion: @escaping ImageCompletion) {
         HTTPClient(URLSession.shared).dataTask(with: request) { (result) in
             switch result {
             case .success(let result):
-                Networker.log(request, message: result.statusCode)
+                Networker.log(request, message: result.response.localizedStatusCode)
                 if let image = UIImage(data: result.data) {
                     completion(.success(image))
                 } else {
@@ -103,7 +108,8 @@ extension Networker {
     }
     
     private static func log(_ request: URLRequest, message: String) {
+        guard Networker.isVerboseEnabled else { return }
         let url = request.url?.absoluteString ?? "(пустое значение ulr)"
-        print("\(module)\n\(url)\n\(message)")
+        print("[\(Self.self)]\n\(url)\n\(message)")
     }
 }
