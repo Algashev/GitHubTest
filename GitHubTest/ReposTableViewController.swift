@@ -8,12 +8,11 @@
 
 import UIKit
 import RealmSwift
-import Networker
+import HTTPURLRequest
 
 class ReposTableViewController: UITableViewController {
     private var repos: Results<RLMRepo>?
     private var reposToken: NotificationToken?
-    private let networker = Networker(decoder: JSONDecoder())
     private var isNextPageDownloadEnabled = false
     private var pageNumber = 1
     private let url = "https://api.github.com/search/repositories?q=language:swift&sort=stars&order=desc&per_page=20&page="
@@ -52,29 +51,33 @@ class ReposTableViewController: UITableViewController {
     }
     
     private func getReposFromNetwork(pageNumber: Int) {
-        guard let url = URL(string: self.url + "\(pageNumber)") else { return }
-        self.networker.requestJSON(with: url, Repos.self) { (result) in
-            switch result {
-            case .success(let repos):
+        guard let request = try? HTTPURLRequest(path: self.url + "\(pageNumber)") else { return }
+        request.dataTask(decoding: Repos.self) { response in
+            switch response {
+            case let .success(result):
+                let repos = result.decoded
                 RLMRepo.add(repos)
-            case .failure(let error):
+            case let .failure(error):
                 print(error.localizedDescription)
             }
         }
     }
     
     @objc private func refresh(_ sender: UIRefreshControl?) {
-        guard let url = URL(string: self.url + "1") else { return }
-        self.networker.requestJSON(with: url, Repos.self) { [weak self] (result) in
-            switch result {
-            case .success(let repos):
-                self?.repos?.delete()
-                self?.removeAvatars()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self?.pageNumber = 1
-                    RLMRepo.add(repos)
-                    self?.refreshControl?.endRefreshing()
-                    self?.isNextPageDownloadEnabled = true
+        guard let request = try? HTTPURLRequest(path: self.url + "1") else { return }
+        request.dataTask(decoding: Repos.self) { [weak self] response in
+            switch response {
+            case .success(let result):
+                let repos = result.decoded
+                DispatchQueue.main.async {
+                    self?.repos?.delete()
+                    self?.removeAvatars()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self?.pageNumber = 1
+                        RLMRepo.add(repos)
+                        self?.refreshControl?.endRefreshing()
+                        self?.isNextPageDownloadEnabled = true
+                    }
                 }
             case .failure(let error):
                 print(error.localizedDescription)

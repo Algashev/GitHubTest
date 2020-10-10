@@ -1,5 +1,4 @@
 PODS:
-  - Networker (1.0.0)
   - Realm (5.4.8):
     - Realm/Headers (= 5.4.8)
   - Realm/Headers (5.4.8)
@@ -7,7 +6,6 @@ PODS:
     - Realm (= 5.4.8)
 
 DEPENDENCIES:
-  - Networker (from `https://github.com/Algashev/Networker.git`)
   - RealmSwift
 
 SPEC REPOS:
@@ -15,20 +13,10 @@ SPEC REPOS:
     - Realm
     - RealmSwift
 
-EXTERNAL SOURCES:
-  Networker:
-    :git: https://github.com/Algashev/Networker.git
-
-CHECKOUT OPTIONS:
-  Networker:
-    :commit: a41c1647c2683782f197faf30f7ca3619be902a5
-    :git: https://github.com/Algashev/Networker.git
-
 SPEC CHECKSUMS:
-  Networker: f64bd6806ee4c3e35661d4869ef4fb045f300546
   Realm: 042bbb59227a0159eda397b8a5a49fbd67495ce7
   RealmSwift: 15ddd6b3398ebfc99810811c44f095df1313adb3
 
-PODFILE CHECKSUM: 6cf558f7a3a7cf3a894140309b8e56accf8e47ff
+PODFILE CHECKSUM: 66f0667f86b2a4a576748ffb2667d9b7926d1cb1
 
 COCOAPODS: 1.9.3

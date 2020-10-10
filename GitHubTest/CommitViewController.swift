@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Networker
+import HTTPURLRequest
 
 class CommitViewController: UIViewController {
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -16,7 +16,6 @@ class CommitViewController: UIViewController {
     @IBOutlet weak var commitLabel: UILabel!
     @IBOutlet weak var branchLabel: UILabel!
     
-    private let networker = Networker(decoder: JSONDecoder())
     var path = ""
     let commitURLSuffix = "?&per_page=1&page=1"
     let branchURLSuffix = "/branches-where-head"
@@ -24,41 +23,51 @@ class CommitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        guard let url = URL(string: self.path + self.commitURLSuffix) else { return }
-        self.networker.requestJSON(with: url, [Commit].self) { [weak self] (result) in
-            switch result {
-            case .success(let commits):
+        guard let request = try? HTTPURLRequest(path: self.path + self.commitURLSuffix)
+        else { return }
+        request.dataTask(decoding: [Commit].self) { [weak self] response in
+            switch response {
+            case let .success(result):
+                let commits = result.decoded
                 guard
                     let commit = commits.first,
-                    let request =
-                    self?.branchRequestForCommitWith(sha: commit.sha),
-                    let url = URL(string: commit.author.avatar_url)
+                    let urlRequest =
+                    self?.branchRequestForCommit(with: commit.sha)
                 else { return }
                 if let image = UIImage(fromPngFileWithName: commit.author.login) {
                     self?.avatarImageView.image = image
                 } else {
-                    self?.networker.requestImage(with: url) { (result) in
-                        switch result {
-                        case .success(let image):
-                            self?.avatarImageView.image = image
-                            image.safeAsPngWith(name: commit.author.login)
+                    guard let request = try? HTTPURLRequest(path: commit.author.avatar_url)
+                    else { return }
+                    request.dataTask() { response in
+                        switch response {
+                        case .success(let result):
+                            let image = result.data.image
+                            DispatchQueue.main.async {
+                                self?.avatarImageView.image = image
+                            }
+                            image?.safeAsPngWith(name: commit.author.login)
                         case .failure(let error):
                             print(error.localizedDescription)
                         }
                     }
                 }
-                self?.networker.requestJSON(with: request, [Branch].self) { (result) in
-                    switch result {
-                    case .success(let branches):
-                        guard let commit = RLMCommit.add(commits: commits, branches: branches)
+                let request = HTTPURLRequest(request: urlRequest)
+                request.dataTask(decoding: [Branch].self) { response in
+                    switch response {
+                    case .success(let results):
+                        let branches = results.decoded
+                        DispatchQueue.main.async {
+                            guard let commit = RLMCommit.add(commits: commits, branches: branches)
                             else { return }
-                        self?.updateView(with: commit)
+                            self?.updateView(with: commit)
+                        }
                     case .failure(let error):
                         print(error.localizedDescription)
                     }
                 }
-            case .failure:
-                break
+            case let .failure(error):
+                print(error.localizedDescription)
             }
         }
     }
@@ -70,7 +79,7 @@ class CommitViewController: UIViewController {
         self.branchLabel.text = "Branch: \(commit.branch)"
     }
     
-    private func branchRequestForCommitWith(sha: String?) -> URLRequest? {
+    private func branchRequestForCommit(with sha: String?) -> URLRequest? {
         guard let url = URL(string: self.branchURLForCommitWith(sha: sha))
         else { return nil }
         var request = URLRequest(url: url)

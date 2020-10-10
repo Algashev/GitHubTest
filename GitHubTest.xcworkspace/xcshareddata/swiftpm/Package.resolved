@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "HTTPURLRequest",
+        "repositoryURL": "https://github.com/HTTPURLRequest/HTTPURLRequest.git",
+        "state": {
+          "branch": "main",
+          "revision": "d0cb3ede3fdf2873a925c19e8de8e8a57a5d7c17",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

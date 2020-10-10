@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,6 +24,7 @@
 		FFAAFF6F23870CCA000E57C8 /* RLMCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF6E23870CCA000E57C8 /* RLMCommit.swift */; };
 		FFAAFF71238724FD000E57C8 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF70238724FD000E57C8 /* UIImage.swift */; };
 		FFAAFF732387295F000E57C8 /* Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF722387295F000E57C8 /* Realm.swift */; };
+		FFEF5311253213DC008EEC78 /* HTTPURLRequest in Frameworks */ = {isa = PBXBuildFile; productRef = FFEF5310253213DC008EEC78 /* HTTPURLRequest */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFEF5311253213DC008EEC78 /* HTTPURLRequest in Frameworks */,
 				0846DEBE8BECDAB34AE8C229 /* Pods_GitHubTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -155,6 +157,9 @@
 			dependencies = (
 			);
 			name = GitHubTest;
+			packageProductDependencies = (
+				FFEF5310253213DC008EEC78 /* HTTPURLRequest */,
+			);
 			productName = GitHubTest;
 			productReference = FFAAFF432384609A000E57C8 /* GitHubTest.app */;
 			productType = "com.apple.product-type.application";
@@ -183,6 +188,9 @@
 				Base,
 			);
 			mainGroup = FFAAFF3A2384609A000E57C8;
+			packageReferences = (
+				FFEF530F253213DC008EEC78 /* XCRemoteSwiftPackageReference "HTTPURLRequest" */,
+			);
 			productRefGroup = FFAAFF442384609A000E57C8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -466,6 +474,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FFEF530F253213DC008EEC78 /* XCRemoteSwiftPackageReference "HTTPURLRequest" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/HTTPURLRequest/HTTPURLRequest.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FFEF5310253213DC008EEC78 /* HTTPURLRequest */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FFEF530F253213DC008EEC78 /* XCRemoteSwiftPackageReference "HTTPURLRequest" */;
+			productName = HTTPURLRequest;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FFAAFF3B2384609A000E57C8 /* Project object */;
 }
