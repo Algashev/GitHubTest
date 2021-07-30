@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0846DEBE8BECDAB34AE8C229 /* Pods_GitHubTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E52D094D35C97D072E9C10F /* Pods_GitHubTest.framework */; };
 		FF90EF30247C5AE40073330B /* Results.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF90EF2F247C5AE40073330B /* Results.swift */; };
 		FFAAFF472384609A000E57C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF462384609A000E57C8 /* AppDelegate.swift */; };
 		FFAAFF4E2384609A000E57C8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFAAFF4C2384609A000E57C8 /* Main.storyboard */; };
@@ -24,13 +23,12 @@
 		FFAAFF6F23870CCA000E57C8 /* RLMCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF6E23870CCA000E57C8 /* RLMCommit.swift */; };
 		FFAAFF71238724FD000E57C8 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF70238724FD000E57C8 /* UIImage.swift */; };
 		FFAAFF732387295F000E57C8 /* Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF722387295F000E57C8 /* Realm.swift */; };
-		FFEF5311253213DC008EEC78 /* HTTPURLRequest in Frameworks */ = {isa = PBXBuildFile; productRef = FFEF5310253213DC008EEC78 /* HTTPURLRequest */; };
+		FFB13D3C26B46165001A000D /* Networker in Frameworks */ = {isa = PBXBuildFile; productRef = FFB13D3B26B46165001A000D /* Networker */; };
+		FFD0A9C526B46A9C00511B5A /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = FFD0A9C426B46A9C00511B5A /* Realm */; };
+		FFD0A9C726B46A9C00511B5A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FFD0A9C626B46A9C00511B5A /* RealmSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		418780792FDE5F82779B2A24 /* Pods-GitHubTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GitHubTest.debug.xcconfig"; path = "Target Support Files/Pods-GitHubTest/Pods-GitHubTest.debug.xcconfig"; sourceTree = "<group>"; };
-		7E52D094D35C97D072E9C10F /* Pods_GitHubTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GitHubTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		928F7B11718F521BB3B8B5C1 /* Pods-GitHubTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GitHubTest.release.xcconfig"; path = "Target Support Files/Pods-GitHubTest/Pods-GitHubTest.release.xcconfig"; sourceTree = "<group>"; };
 		FF90EF2F247C5AE40073330B /* Results.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Results.swift; sourceTree = "<group>"; };
 		FFAAFF432384609A000E57C8 /* GitHubTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHubTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFAAFF462384609A000E57C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -56,38 +54,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FFEF5311253213DC008EEC78 /* HTTPURLRequest in Frameworks */,
-				0846DEBE8BECDAB34AE8C229 /* Pods_GitHubTest.framework in Frameworks */,
+				FFD0A9C726B46A9C00511B5A /* RealmSwift in Frameworks */,
+				FFD0A9C526B46A9C00511B5A /* Realm in Frameworks */,
+				FFB13D3C26B46165001A000D /* Networker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A3C2CB94309C6F711D46E946 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				418780792FDE5F82779B2A24 /* Pods-GitHubTest.debug.xcconfig */,
-				928F7B11718F521BB3B8B5C1 /* Pods-GitHubTest.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		F3FB599A3FC18AB2B19BC38D /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				7E52D094D35C97D072E9C10F /* Pods_GitHubTest.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		FFAAFF3A2384609A000E57C8 = {
 			isa = PBXGroup;
 			children = (
 				FFAAFF452384609A000E57C8 /* GitHubTest */,
 				FFAAFF442384609A000E57C8 /* Products */,
-				A3C2CB94309C6F711D46E946 /* Pods */,
-				F3FB599A3FC18AB2B19BC38D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -102,12 +82,12 @@
 		FFAAFF452384609A000E57C8 /* GitHubTest */ = {
 			isa = PBXGroup;
 			children = (
-				FFAAFF462384609A000E57C8 /* AppDelegate.swift */,
 				FFAAFF6A2386EE8D000E57C8 /* CommitViewController.swift */,
 				FFAAFF612385A642000E57C8 /* ReposTableViewController.swift */,
 				FFAAFF682385B983000E57C8 /* RepoCell.swift */,
 				FFAAFF602385A486000E57C8 /* Entities */,
 				FFAAFF652385B219000E57C8 /* Extensions */,
+				FFAAFF462384609A000E57C8 /* AppDelegate.swift */,
 				FFAAFF4C2384609A000E57C8 /* Main.storyboard */,
 				FFAAFF4F2384609C000E57C8 /* Assets.xcassets */,
 				FFAAFF512384609C000E57C8 /* LaunchScreen.storyboard */,
@@ -146,11 +126,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FFAAFF572384609C000E57C8 /* Build configuration list for PBXNativeTarget "GitHubTest" */;
 			buildPhases = (
-				D1C0C0579996965A6141599A /* [CP] Check Pods Manifest.lock */,
 				FFAAFF3F2384609A000E57C8 /* Sources */,
 				FFAAFF402384609A000E57C8 /* Frameworks */,
 				FFAAFF412384609A000E57C8 /* Resources */,
-				9CE7E5CC71C799A7DB02420F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -158,7 +136,9 @@
 			);
 			name = GitHubTest;
 			packageProductDependencies = (
-				FFEF5310253213DC008EEC78 /* HTTPURLRequest */,
+				FFB13D3B26B46165001A000D /* Networker */,
+				FFD0A9C426B46A9C00511B5A /* Realm */,
+				FFD0A9C626B46A9C00511B5A /* RealmSwift */,
 			);
 			productName = GitHubTest;
 			productReference = FFAAFF432384609A000E57C8 /* GitHubTest.app */;
@@ -189,7 +169,8 @@
 			);
 			mainGroup = FFAAFF3A2384609A000E57C8;
 			packageReferences = (
-				FFEF530F253213DC008EEC78 /* XCRemoteSwiftPackageReference "HTTPURLRequest" */,
+				FFB13D3A26B46165001A000D /* XCRemoteSwiftPackageReference "HTTPURLRequest" */,
+				FFD0A9C326B46A9C00511B5A /* XCRemoteSwiftPackageReference "realm-cocoa" */,
 			);
 			productRefGroup = FFAAFF442384609A000E57C8 /* Products */;
 			projectDirPath = "";
@@ -212,48 +193,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		9CE7E5CC71C799A7DB02420F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-GitHubTest/Pods-GitHubTest-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-GitHubTest/Pods-GitHubTest-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GitHubTest/Pods-GitHubTest-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D1C0C0579996965A6141599A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-GitHubTest-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FFAAFF3F2384609A000E57C8 /* Sources */ = {
@@ -349,7 +288,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -404,7 +343,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -416,7 +355,6 @@
 		};
 		FFAAFF582384609C000E57C8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 418780792FDE5F82779B2A24 /* Pods-GitHubTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -435,7 +373,6 @@
 		};
 		FFAAFF592384609C000E57C8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 928F7B11718F521BB3B8B5C1 /* Pods-GitHubTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -476,21 +413,39 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		FFEF530F253213DC008EEC78 /* XCRemoteSwiftPackageReference "HTTPURLRequest" */ = {
+		FFB13D3A26B46165001A000D /* XCRemoteSwiftPackageReference "HTTPURLRequest" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/HTTPURLRequest/HTTPURLRequest.git";
+			repositoryURL = "https://github.com/SwiftExtensions/HTTPURLRequest.git";
 			requirement = {
 				branch = main;
 				kind = branch;
 			};
 		};
+		FFD0A9C326B46A9C00511B5A /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.11.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		FFEF5310253213DC008EEC78 /* HTTPURLRequest */ = {
+		FFB13D3B26B46165001A000D /* Networker */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FFEF530F253213DC008EEC78 /* XCRemoteSwiftPackageReference "HTTPURLRequest" */;
-			productName = HTTPURLRequest;
+			package = FFB13D3A26B46165001A000D /* XCRemoteSwiftPackageReference "HTTPURLRequest" */;
+			productName = Networker;
+		};
+		FFD0A9C426B46A9C00511B5A /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FFD0A9C326B46A9C00511B5A /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
+		};
+		FFD0A9C626B46A9C00511B5A /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FFD0A9C326B46A9C00511B5A /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

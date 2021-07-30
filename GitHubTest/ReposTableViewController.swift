@@ -8,7 +8,7 @@
 
 import UIKit
 import RealmSwift
-import HTTPURLRequest
+import Networker
 
 class ReposTableViewController: UITableViewController {
     private var repos: Results<RLMRepo>?

@@ -24,7 +24,9 @@ import RealmSwift
         Property.sha.rawValue
     }
     
-    required init() { }
+    override init() {
+        super.init()
+    }
     
     init(commit: Commit, branch: Branch) {
         self.sha = commit.sha

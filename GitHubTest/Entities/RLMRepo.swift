@@ -23,7 +23,9 @@ import RealmSwift
         Property.id.rawValue
     }
     
-    required init() { }
+    override init() {
+        super.init()
+    }
     
     init(_ repo: Repo) {
         self.id = repo.id

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import HTTPURLRequest
+import Networker
 
 class CommitViewController: UIViewController {
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -25,7 +25,7 @@ class CommitViewController: UIViewController {
     
         guard let request = try? HTTPURLRequest(path: self.path + self.commitURLSuffix)
         else { return }
-        request.dataTask(decoding: [Commit].self) { [weak self] response in
+        request.dataTask(decoding: [Commit].self, dispatchQueue: .main) { [weak self] response in
             switch response {
             case let .success(result):
                 let commits = result.decoded
@@ -39,14 +39,12 @@ class CommitViewController: UIViewController {
                 } else {
                     guard let request = try? HTTPURLRequest(path: commit.author.avatar_url)
                     else { return }
-                    request.dataTask() { response in
+                    request.imageDataTask(dispatchQueue: .main) { response in
                         switch response {
                         case .success(let result):
-                            let image = result.data.image
-                            DispatchQueue.main.async {
-                                self?.avatarImageView.image = image
-                            }
-                            image?.safeAsPngWith(name: commit.author.login)
+                            let image = result.image
+                            self?.avatarImageView.image = image
+                            image.safeAsPngWith(name: commit.author.login)
                         case .failure(let error):
                             print(error.localizedDescription)
                         }
