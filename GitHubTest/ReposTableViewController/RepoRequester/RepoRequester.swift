@@ -1,5 +1,5 @@
 //
-//  RepositoriesRequester.swift
+//  RepoRequester.swift
 //  GitHubTest
 //
 //  Created by Александр Алгашев on 30.07.2021.
@@ -9,20 +9,24 @@
 import Foundation
 import Networker
 
-protocol RepositoriesRequesterDelegate: AnyObject {
+protocol RepoRequesterDelegate: AnyObject {
     func didRecieve(repos: Repos)
     func requestDidFail(error: Error)
     
     
 }
 
-class RepositoriesRequester {
+class RepoRequester {
     private var isNextPageDownloadEnabled = true
     private var pageNumber = 1
     private var url: URL {
-        RepositoriesSource(page: self.pageNumber).url
+        RepoSource(page: self.pageNumber).url
     }
-    weak var delegate: RepositoriesRequesterDelegate?
+    private weak var delegate: RepoRequesterDelegate?
+    
+    init(delegate: RepoRequesterDelegate?) {
+        self.delegate = delegate
+    }
     
     func reloadData() {
         self.pageNumber = 1

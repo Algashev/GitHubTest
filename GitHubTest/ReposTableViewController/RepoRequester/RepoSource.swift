@@ -1,5 +1,5 @@
 //
-//  RepositoriesSource.swift
+//  RepoSource.swift
 //  GitHubTest
 //
 //  Created by Александр Алгашев on 30.07.2021.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct RepositoriesSource {
+struct RepoSource {
     private let githubURL = "https://api.github.com/search/repositories"
     private let language = "language:swift"
     private let sort = "stars"

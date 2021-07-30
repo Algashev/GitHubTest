@@ -13,15 +13,14 @@ import Networker
 class ReposTableViewController: UITableViewController {
     private var repos: Results<RLMRepo>?
     private var reposToken: NotificationToken?
-    private var repositoriesRequester: RepositoriesRequester?
+    private var repositoriesRequester: RepoRequester?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.repos = RLMRepo.all(sorted: .watchers, ascending: false)
         self.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
-        self.repositoriesRequester = RepositoriesRequester()
-        self.repositoriesRequester?.delegate = self
+        self.repositoriesRequester = RepoRequester(delegate: self)
         self.repositoriesRequester?.loadNextPage()
         self.tableView.estimatedRowHeight = 92.5
         print(Realm.parentDirectory)
@@ -52,7 +51,7 @@ class ReposTableViewController: UITableViewController {
     }
     
     private func getReposFromNetwork(page: Int) {
-        guard let url = RepositoriesSource(page: page).url else { return }
+        guard let url = RepoSource(page: page).url else { return }
         HTTPURLRequest(url: url).dataTask(decoding: Repos.self) { response in
             switch response {
             case let .success(result):
@@ -65,7 +64,7 @@ class ReposTableViewController: UITableViewController {
     }
     
     @objc private func refresh(_ sender: UIRefreshControl?) {
-//        guard let url = RepositoriesSource(page: 1).url else { return }
+//        guard let url = RepoSource(page: 1).url else { return }
 //        HTTPURLRequest(url: url).dataTask(decoding: Repos.self, dispatchQueue: .main) { [weak self] response in
 //            switch response {
 //            case .success(let result):
@@ -134,9 +133,9 @@ class ReposTableViewController: UITableViewController {
     }
 }
 
-// MARK: - RepositoriesRequesterDelegate
+// MARK: - RepoRequesterDelegate
 
-extension ReposTableViewController: RepositoriesRequesterDelegate {
+extension ReposTableViewController: RepoRequesterDelegate {
     func didRecieve(repos: Repos) {
         RLMRepo.add(repos)
     }
