@@ -15,7 +15,6 @@ class ReposTableViewController: UITableViewController {
     private var reposToken: NotificationToken?
     private var isNextPageDownloadEnabled = false
     private var pageNumber = 1
-    private let url = "https://api.github.com/search/repositories?q=language:swift&sort=stars&order=desc&per_page=20&page="
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,9 +49,9 @@ class ReposTableViewController: UITableViewController {
         self.reposToken?.invalidate()
     }
     
-    private func getReposFromNetwork(pageNumber: Int) {
-        guard let request = try? HTTPURLRequest(path: self.url + "\(pageNumber)") else { return }
-        request.dataTask(decoding: Repos.self) { response in
+    private func getReposFromNetwork(page: Int) {
+        guard let url = RepositoriesSource(page: page).url else { return }
+        HTTPURLRequest(url: url).dataTask(decoding: Repos.self) { response in
             switch response {
             case let .success(result):
                 let repos = result.decoded
@@ -64,20 +63,18 @@ class ReposTableViewController: UITableViewController {
     }
     
     @objc private func refresh(_ sender: UIRefreshControl?) {
-        guard let request = try? HTTPURLRequest(path: self.url + "1") else { return }
-        request.dataTask(decoding: Repos.self) { [weak self] response in
+        guard let url = RepositoriesSource(page: 1).url else { return }
+        HTTPURLRequest(url: url).dataTask(decoding: Repos.self, dispatchQueue: .main) { [weak self] response in
             switch response {
             case .success(let result):
                 let repos = result.decoded
-                DispatchQueue.main.async {
-                    self?.repos?.delete()
-                    self?.removeAvatars()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self?.pageNumber = 1
-                        RLMRepo.add(repos)
-                        self?.refreshControl?.endRefreshing()
-                        self?.isNextPageDownloadEnabled = true
-                    }
+                self?.repos?.delete()
+                self?.removeAvatars()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self?.pageNumber = 1
+                    RLMRepo.add(repos)
+                    self?.refreshControl?.endRefreshing()
+                    self?.isNextPageDownloadEnabled = true
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -96,7 +93,7 @@ class ReposTableViewController: UITableViewController {
         if !self.isNextPageDownloadEnabled { return }
         if self.tableView.isGreaterOrEqualThanMaxOffset {
             self.pageNumber += 1
-            self.getReposFromNetwork(pageNumber: self.pageNumber)
+            self.getReposFromNetwork(page: self.pageNumber)
             self.isNextPageDownloadEnabled = false
         }
     }

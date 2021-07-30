@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF2C253326B47B1E0092F09A /* RepositoriesSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2C253226B47B1E0092F09A /* RepositoriesSource.swift */; };
+		FF2C253526B47DBF0092F09A /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2C253426B47DBF0092F09A /* Int.swift */; };
 		FF90EF30247C5AE40073330B /* Results.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF90EF2F247C5AE40073330B /* Results.swift */; };
 		FFAAFF472384609A000E57C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAAFF462384609A000E57C8 /* AppDelegate.swift */; };
 		FFAAFF4E2384609A000E57C8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFAAFF4C2384609A000E57C8 /* Main.storyboard */; };
@@ -29,6 +31,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FF2C253226B47B1E0092F09A /* RepositoriesSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoriesSource.swift; sourceTree = "<group>"; };
+		FF2C253426B47DBF0092F09A /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		FF90EF2F247C5AE40073330B /* Results.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Results.swift; sourceTree = "<group>"; };
 		FFAAFF432384609A000E57C8 /* GitHubTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHubTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFAAFF462384609A000E57C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +72,7 @@
 			children = (
 				FFAAFF682385B983000E57C8 /* RepoCell.swift */,
 				FFAAFF612385A642000E57C8 /* ReposTableViewController.swift */,
+				FF2C253226B47B1E0092F09A /* RepositoriesSource.swift */,
 			);
 			path = ReposTableViewController;
 			sourceTree = "<group>";
@@ -96,6 +101,7 @@
 				FFAAFF602385A486000E57C8 /* Entities */,
 				FFAAFF652385B219000E57C8 /* Extensions */,
 				FFAAFF462384609A000E57C8 /* AppDelegate.swift */,
+				FF2C253426B47DBF0092F09A /* Int.swift */,
 				FFAAFF4C2384609A000E57C8 /* Main.storyboard */,
 				FFAAFF4F2384609C000E57C8 /* Assets.xcassets */,
 				FFAAFF512384609C000E57C8 /* LaunchScreen.storyboard */,
@@ -217,7 +223,9 @@
 				FFAAFF622385A642000E57C8 /* ReposTableViewController.swift in Sources */,
 				FFAAFF6B2386EE8D000E57C8 /* CommitViewController.swift in Sources */,
 				FF90EF30247C5AE40073330B /* Results.swift in Sources */,
+				FF2C253326B47B1E0092F09A /* RepositoriesSource.swift in Sources */,
 				FFAAFF71238724FD000E57C8 /* UIImage.swift in Sources */,
+				FF2C253526B47DBF0092F09A /* Int.swift in Sources */,
 				FFAAFF672385B243000E57C8 /* UITableView.swift in Sources */,
 				FFAAFF692385B983000E57C8 /* RepoCell.swift in Sources */,
 			);
