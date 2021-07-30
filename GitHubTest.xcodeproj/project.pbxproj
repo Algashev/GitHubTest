@@ -63,6 +63,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FF2C253126B47A620092F09A /* ReposTableViewController */ = {
+			isa = PBXGroup;
+			children = (
+				FFAAFF682385B983000E57C8 /* RepoCell.swift */,
+				FFAAFF612385A642000E57C8 /* ReposTableViewController.swift */,
+			);
+			path = ReposTableViewController;
+			sourceTree = "<group>";
+		};
 		FFAAFF3A2384609A000E57C8 = {
 			isa = PBXGroup;
 			children = (
@@ -82,9 +91,8 @@
 		FFAAFF452384609A000E57C8 /* GitHubTest */ = {
 			isa = PBXGroup;
 			children = (
+				FF2C253126B47A620092F09A /* ReposTableViewController */,
 				FFAAFF6A2386EE8D000E57C8 /* CommitViewController.swift */,
-				FFAAFF612385A642000E57C8 /* ReposTableViewController.swift */,
-				FFAAFF682385B983000E57C8 /* RepoCell.swift */,
 				FFAAFF602385A486000E57C8 /* Entities */,
 				FFAAFF652385B219000E57C8 /* Extensions */,
 				FFAAFF462384609A000E57C8 /* AppDelegate.swift */,
