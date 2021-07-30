@@ -15,7 +15,7 @@ import RealmSwift
     
     dynamic var id = 0
     dynamic var name = ""
-    dynamic var desc = ""
+    dynamic var desc: String?
     dynamic var owner = ""
     dynamic var watchers = 0
     
