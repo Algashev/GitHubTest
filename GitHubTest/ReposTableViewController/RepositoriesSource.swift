@@ -14,7 +14,7 @@ struct RepositoriesSource {
     private let sort = "stars"
     private let order = "desc"
     private let perPage = 20
-    private(set) var url: URL?
+    private(set) var url: URL!
     
     init(page: Int) {
         var components = URLComponents(string: self.githubURL)

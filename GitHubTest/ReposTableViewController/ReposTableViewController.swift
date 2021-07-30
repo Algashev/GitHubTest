@@ -13,21 +13,23 @@ import Networker
 class ReposTableViewController: UITableViewController {
     private var repos: Results<RLMRepo>?
     private var reposToken: NotificationToken?
-    private var isNextPageDownloadEnabled = false
-    private var pageNumber = 1
+    private var repositoriesRequester: RepositoriesRequester?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.repos = RLMRepo.all(sorted: .watchers, ascending: false)
         self.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
-        self.refresh(nil)
+        self.repositoriesRequester = RepositoriesRequester()
+        self.repositoriesRequester?.delegate = self
+        self.repositoriesRequester?.loadNextPage()
         self.tableView.estimatedRowHeight = 92.5
         print(Realm.parentDirectory)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         self.reposToken = self.repos?.observe({ [weak tableView] changes in
             guard let tableView = tableView else { return }
             switch changes {
@@ -63,23 +65,23 @@ class ReposTableViewController: UITableViewController {
     }
     
     @objc private func refresh(_ sender: UIRefreshControl?) {
-        guard let url = RepositoriesSource(page: 1).url else { return }
-        HTTPURLRequest(url: url).dataTask(decoding: Repos.self, dispatchQueue: .main) { [weak self] response in
-            switch response {
-            case .success(let result):
-                let repos = result.decoded
-                self?.repos?.delete()
-                self?.removeAvatars()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self?.pageNumber = 1
-                    RLMRepo.add(repos)
-                    self?.refreshControl?.endRefreshing()
-                    self?.isNextPageDownloadEnabled = true
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+//        guard let url = RepositoriesSource(page: 1).url else { return }
+//        HTTPURLRequest(url: url).dataTask(decoding: Repos.self, dispatchQueue: .main) { [weak self] response in
+//            switch response {
+//            case .success(let result):
+//                let repos = result.decoded
+//                self?.repos?.delete()
+//                self?.removeAvatars()
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                    self?.pageNumber = 1
+//                    RLMRepo.add(repos)
+//                    self?.refreshControl?.endRefreshing()
+//                    self?.isNextPageDownloadEnabled = true
+//                }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
     }
     
     
@@ -90,11 +92,8 @@ class ReposTableViewController: UITableViewController {
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if !self.isNextPageDownloadEnabled { return }
         if self.tableView.isGreaterOrEqualThanMaxOffset {
-            self.pageNumber += 1
-            self.getReposFromNetwork(page: self.pageNumber)
-            self.isNextPageDownloadEnabled = false
+            self.repositoriesRequester?.loadNextPage()
         }
     }
 
@@ -133,4 +132,21 @@ class ReposTableViewController: UITableViewController {
     private func commitURL(owner: String, repo: String) -> String {
         return "https://api.github.com/repos/\(owner)/\(repo)/commits"
     }
+}
+
+// MARK: - RepositoriesRequesterDelegate
+
+extension ReposTableViewController: RepositoriesRequesterDelegate {
+    func didRecieve(repos: Repos) {
+        RLMRepo.add(repos)
+    }
+    
+    func requestDidFail(error: Error) {
+        let alert = UIAlertController(title: "Ошибка", message: error.localizedDescription, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ок", style: .default, handler: nil)
+        alert.addAction(okAction)
+        self.present(alert, animated: true)
+    }
+    
+    
 }
