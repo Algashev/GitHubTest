@@ -20,6 +20,22 @@ class CommitViewController: UIViewController {
     let commitURLSuffix = "?&per_page=1&page=1"
     let branchURLSuffix = "/branches-where-head"
     
+    static func create(repo: RLMRepo?) -> CommitViewController? {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "\(CommitViewController.self)")
+        guard let commitViewController = controller as? CommitViewController,
+              let repo = repo
+        else { return nil }
+        
+        commitViewController.path = CommitViewController.commitURL(owner: repo.owner, repo: repo.name)
+        
+        return commitViewController
+    }
+    
+    static private func commitURL(owner: String, repo: String) -> String {
+        return "https://api.github.com/repos/\(owner)/\(repo)/commits"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     

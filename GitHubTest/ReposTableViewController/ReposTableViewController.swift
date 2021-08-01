@@ -104,18 +104,9 @@ class ReposTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard
-            let controller = storyboard.instantiateViewController(withIdentifier: "\(CommitViewController.self)") as? CommitViewController,
-            let repo = self.repos?[indexPath.row]
-        else { return }
+        guard let commitViewController = CommitViewController.create(repo: self.repos?[indexPath.row]) else { return }
         
-        controller.path = self.commitURL(owner: repo.owner, repo: repo.name)
-        self.navigationController?.pushViewController(controller, animated: true)
-    }
-    
-    private func commitURL(owner: String, repo: String) -> String {
-        return "https://api.github.com/repos/\(owner)/\(repo)/commits"
+        self.navigationController?.pushViewController(commitViewController, animated: true)
     }
     
     
