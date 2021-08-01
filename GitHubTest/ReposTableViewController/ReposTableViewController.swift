@@ -51,23 +51,9 @@ class ReposTableViewController: UITableViewController {
     }
     
     @objc private func refresh(_ sender: UIRefreshControl?) {
-//        guard let url = RepoSource(page: 1).url else { return }
-//        HTTPURLRequest(url: url).dataTask(decoding: Repos.self, dispatchQueue: .main) { [weak self] response in
-//            switch response {
-//            case .success(let result):
-//                let repos = result.decoded
-//                self?.repos?.delete()
-//                self?.removeAvatars()
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                    self?.pageNumber = 1
-//                    RLMRepo.add(repos)
-//                    self?.refreshControl?.endRefreshing()
-//                    self?.isNextPageDownloadEnabled = true
-//                }
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
-//        }
+        self.repos?.delete()
+        self.removeAvatars()
+        self.reposRequester?.reloadData()
     }
     
     private func removeAvatars() {
@@ -116,10 +102,12 @@ class ReposTableViewController: UITableViewController {
 
 extension ReposTableViewController: ReposRequesterDelegate {
     func didRecieve(repos: Repos) {
+        self.refreshControl?.endRefreshing()
         RLMRepo.add(repos)
     }
     
     func requestDidFail(error: Error) {
+        self.refreshControl?.endRefreshing()
         let alert = UIAlertController(title: "Ошибка", message: error.localizedDescription, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ок", style: .default, handler: nil)
         alert.addAction(okAction)

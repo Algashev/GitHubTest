@@ -52,7 +52,7 @@ extension RLMRepo {
         let realm = try? Realm()
         try? realm?.write {
             repos.items.forEach {
-                realm?.add(RLMRepo($0))
+                realm?.add(RLMRepo($0), update: .all)
             }
         }
     }
