@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct RepoSource {
-    private let githubURL = "https://api.github.com/search/repositories"
+struct ReposSource {
+    private let reposURL = "https://api.github.com/search/repositories"
     private let language = "language:swift"
     private let sort = "stars"
     private let order = "desc"
@@ -17,7 +17,7 @@ struct RepoSource {
     private(set) var url: URL!
     
     init(page: Int) {
-        var components = URLComponents(string: self.githubURL)
+        var components = URLComponents(string: self.reposURL)
         components?.queryItems = self.query(page: page)
         self.url = components?.url
     }

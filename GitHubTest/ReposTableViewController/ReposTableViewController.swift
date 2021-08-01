@@ -13,15 +13,15 @@ import Networker
 class ReposTableViewController: UITableViewController {
     private var repos: Results<RLMRepo>?
     private var reposToken: NotificationToken?
-    private var repositoriesRequester: RepoRequester?
+    private var reposRequester: ReposRequester?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.repos = RLMRepo.all(sorted: .watchers, ascending: false)
         self.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
-        self.repositoriesRequester = RepoRequester(delegate: self)
-        self.repositoriesRequester?.loadNextPage()
+        self.reposRequester = ReposRequester(delegate: self)
+        self.reposRequester?.loadNextPage()
         self.tableView.estimatedRowHeight = 92.5
         print(Realm.parentDirectory)
     }
@@ -50,19 +50,6 @@ class ReposTableViewController: UITableViewController {
         self.reposToken?.invalidate()
     }
     
-    private func getReposFromNetwork(page: Int) {
-        guard let url = RepoSource(page: page).url else { return }
-        HTTPURLRequest(url: url).dataTask(decoding: Repos.self) { response in
-            switch response {
-            case let .success(result):
-                let repos = result.decoded
-                RLMRepo.add(repos)
-            case let .failure(error):
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
     @objc private func refresh(_ sender: UIRefreshControl?) {
 //        guard let url = RepoSource(page: 1).url else { return }
 //        HTTPURLRequest(url: url).dataTask(decoding: Repos.self, dispatchQueue: .main) { [weak self] response in
@@ -83,7 +70,6 @@ class ReposTableViewController: UITableViewController {
 //        }
     }
     
-    
     private func removeAvatars() {
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let avatarsURL = documentsURL.appendingPathComponent("avatars", isDirectory: true)
@@ -92,14 +78,14 @@ class ReposTableViewController: UITableViewController {
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if self.tableView.isGreaterOrEqualThanMaxOffset {
-            self.repositoriesRequester?.loadNextPage()
+            self.reposRequester?.loadNextPage()
         }
     }
 
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.repos?.count ?? 0
+        self.repos?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -131,11 +117,13 @@ class ReposTableViewController: UITableViewController {
     private func commitURL(owner: String, repo: String) -> String {
         return "https://api.github.com/repos/\(owner)/\(repo)/commits"
     }
+    
+    
 }
 
-// MARK: - RepoRequesterDelegate
+// MARK: - ReposRequesterDelegate
 
-extension ReposTableViewController: RepoRequesterDelegate {
+extension ReposTableViewController: ReposRequesterDelegate {
     func didRecieve(repos: Repos) {
         RLMRepo.add(repos)
     }
