@@ -98,7 +98,7 @@ class ReposTableViewController: UITableViewController {
         } else {
             cell.watchersLabel?.text = ""
         }
-        cell.descriptionLabel?.text = self.repos?[indexPath.row].desc
+        cell.infoLabel?.text = self.repos?[indexPath.row].desc
 
         return cell
     }

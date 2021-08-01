@@ -13,7 +13,7 @@ class RepoCell: UITableViewCell {
     @IBOutlet weak var repoNameLabel: UILabel!
     @IBOutlet weak var ownerLabel: UILabel!
     @IBOutlet weak var watchersLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var infoLabel: UILabel!
     
     
 }
